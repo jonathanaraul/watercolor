@@ -1,0 +1,34 @@
+{%if user is not null %}
+<ul class="nav ace-nav pull-right">
+	<li class="purple">
+		<a data-toggle="dropdown" class="dropdown-toggle" href="#"> <i class="icon-bell-alt {%if notifications |length >= 1 and menu.seccion == 'Panel de Control'%}icon-animated-bell{%endif%}"></i> <span class="badge badge-important">{{notifications |length}}</span> </a>
+		<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-closer">
+			<li class="nav-header">
+				<i class="icon-warning-sign"></i>
+				{{notifications |length}} {%if notifications |length == 1%}Notificaci&oacute;n{%else%}Notificaciones{%endif%}
+			</li>
+			{%for notification in notifications%}
+			<li>
+				<a href="#">
+				<div class="clearfix">
+					<span class="pull-left"> <i class="btn btn-mini no-hover btn-pink icon-comment"></i> {{notification.texto}}</span>
+					<span class="pull-right badge badge-info">{{notification.numero}}</span>
+				</div> </a>
+			</li>
+			{%endfor%}
+		</ul>
+	</li>
+	<li class="light-blue">
+		<a data-toggle="dropdown" href="#" class="dropdown-toggle"> <img class="nav-user-photo" src="{{ asset('avatars/user.jpg') }}" alt="" /> <span class="user-info"> <small>Bienvenido,</small> {{user.username}} </span> <i class="icon-caret-down"></i> </a>
+		<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+			<li>
+				<a href="{{ path('proyecto_principal_modulo_perfil') }}"> <i class="icon-user"></i> Perfil </a>
+			</li>
+			<li class="divider"></li>
+			<li>
+				<a href="{{ path('proyecto_principal_cerrarsesion') }}"> <i class="icon-off"></i> Cerrar sesi&oacute;n </a>
+			</li>
+		</ul>
+	</li>
+</ul><!--/.ace-nav-->
+{%endif%}

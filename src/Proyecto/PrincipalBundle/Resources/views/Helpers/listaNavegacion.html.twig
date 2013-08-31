@@ -1,0 +1,35 @@
+{%if user is not null %}
+<li {%if menu.seccion == 'Panel de Control' %}class="active"{%endif%}>
+	<a href="{{path('proyecto_principal_homepage')}}"> <i class="icon-dashboard"></i> <span class="menu-text"> Panel de Control </span> </a>
+</li>
+<li {%if menu.seccion == 'Nuevo' %}class="active"{%endif%} >
+	<a href="{{path('proyecto_principal_modulo_nuevo')}}"> <i class="icon-cog"></i> <span class="menu-text"> Nuevo </span> </a>
+</li>
+<li {%if menu.seccion == 'Listado' %}class="active"{%endif%}>
+	<a href="{{path('proyecto_principal_modulo_editar')}}"> <i class="icon-book"></i> <span class="menu-text"> Listado </span> </a>
+</li>
+{%endif%}
+<li {%if menu.seccion == 'Acceso' or menu.seccion == 'Registro' or menu.seccion == 'Mi Perfil' %}class="active open"{%endif%}>
+	<a href="#" > <i class="icon-lock"></i> <span class="menu-text"> Usuarios </span> <b class="arrow icon-angle-down"></b> </a>
+	<ul class="submenu" style="display: block;">
+		{%if user is null %}
+		<li {%if menu.seccion == 'Acceso' %}class="active"{%endif%}>
+			<a href="{{ path('proyecto_principal_acceso') }}"> <i class="icon-double-angle-right"></i> Acceso </a>
+		</li>
+		<li {%if menu.seccion == 'Registro' %}class="active"{%endif%}>
+			<a href="{{ path('proyecto_principal_registro') }}"> <i class="icon-double-angle-right"></i> Registro </a>
+		</li>
+		{%endif%}
+		{%if user is not null %}
+		<li {%if menu.seccion == 'Mi Perfil' %}class="active"{%endif%}>
+			<a href="{{ path('proyecto_principal_modulo_perfil') }}"> <i class="icon-double-angle-right"></i> Perfil </a>
+		</li>
+		<li >
+			<a href="{{ path('proyecto_principal_cerrarsesion') }}"> <i class="icon-double-angle-right"></i> Cerrar sesi&oacute;n </a>
+		</li>
+		{%endif%}
+	</ul>
+</li>
+<li {%if menu.seccion == 'Acerca' %}class="active"{%endif%}>
+	<a href="{{ path('proyecto_principal_acerca') }}"> <i class="icon-book"></i> <span class="menu-text"> Acerca de... </span> </a>
+</li>

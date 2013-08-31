@@ -1,0 +1,145 @@
+{% extends "ProyectoPrincipalBundle:Helpers:base.html.twig" %}
+{%block info%}{% include 'ProyectoPrincipalBundle:Helpers:info.html.twig' with {'info': info} %}{%endblock%}
+{%block scripts%}
+<script type="text/javascript">var registroGuardar = '{{path('proyecto_principal_resgistro_guardar')}}';</script>
+{%endblock%}
+
+{%block contenido%}
+<div class="hide" style="display: block;">
+	<div id="user-profile-3" class="user-profile row-fluid">
+		<div class="offset1 span10">
+			<div class="space"></div>
+			<form class="form-horizontal">
+				<input type="hidden" id="tipo" value="{%if menu.seccion == 'Registro'%}0{%else%}1{%endif%}">
+				<div class="tabbable">
+					<ul class="nav nav-tabs padding-16">
+						<li class="active">
+							<a data-toggle="tab" href="#edit-basic"> <i class="green icon-edit bigger-125"></i> Informaci&oacute;n b&aacute;sica</a>
+						</li>
+						<li>
+							<a data-toggle="tab" href="#edit-password"> <i class="blue icon-key bigger-125"></i> Contrase&ntilde;a </a>
+						</li>
+					</ul>
+					<div class="tab-content profile-edit-tab-content">
+						<div id="edit-basic" class="tab-pane in active">
+							<h4 class="header blue bolder smaller">General</h4>
+							<div class="row-fluid">
+								<div class="span4">
+									<div class="ace-file-input ace-file-multiple">
+										<input type="file">
+										<label data-title="Cambiar avatar"><span data-title="No File ..."><i class="icon-picture"></i></span></label><a class="remove" href="#"><i class="icon-remove"></i></a>
+									</div>
+								</div>
+								<div class="vspace"></div>
+								<div class="span8">
+									<div class="control-group">
+										<label class="control-label" for="form-field-username">Nombre de Usuario</label>
+										<div class="controls">
+											<input type="text" id="nombredeusuario" placeholder="Username" value="{%if user is defined%}{{user.username|title}}{%endif%}">
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label" for="form-field-first">Nombre y Apellido</label>
+										<div class="controls">
+											<input class="input-small" type="text" id="nombre" placeholder="Nombre" value="{%if user is defined%}{{user.nombre|title}}{%endif%}">
+											<input class="input-small" type="text"  id="apellido"  placeholder="Apellido" value="{%if user is defined%}{{user.apellido|title}}{%endif%}">
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label" for="form-field-email">Correo electr&oacute;nico</label>
+										<div class="controls">
+											<span class="input-icon input-icon-right">
+												<input type="email"  id="email"  value="{%if user is defined%}{{user.email|title}}{%endif%}">
+												<i class="icon-envelope"></i> </span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">Sexo</label>
+										<div class="controls">
+											<div class="space-2"></div>
+											<label class="inline">
+												<input name="form-field-radio"  id="sexofemenino" type="radio" {%if user is defined%}{%if user.sexo == 1%}checked{%endif%}{%endif%}>
+												<span class="lbl"> Mujer</span> </label>
+											&nbsp; &nbsp; &nbsp; <label class="inline">
+												<input name="form-field-radio" id="sexomasculino" type="radio" {%if user is defined%}{%if user.sexo == 0%}checked{%endif%}{%endif%}>
+												<span class="lbl"> Hombre</span> </label>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label" for="form-field-comment">Sobre ud...</label>
+										<div class="controls">
+											<textarea id="personal">{%if user is defined%}sobre mi{%endif%}</textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr>
+						</div>
+						<div id="edit-password" class="tab-pane">
+							<div class="space-10"></div>
+							<div class="clearfix">
+								<div class="pull-left alert alert-success inline no-margin" >
+									{%if menu.seccion == 'Registro'%}Ingrese una contrase&ntilde;a de m&iacute;nimo 8 caracteres{%else%}S&oacute;lo rellene los siguientes campos si desea sobreescribir su contraseña actual{%endif%}
+								</div>
+							</div>
+							<div class="space-10"></div>
+							<div class="control-group">
+								<label class="control-label" for="form-field-pass1">Nueva Contrase&ntilde;a</label>
+								<div class="controls">
+									<input type="password" id="password" >
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="form-field-pass2">Confirmar Contrase&ntilde;a</label>
+								<div class="controls">
+									<input type="password" id="password2" >
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-actions">
+					<button class="btn btn-info" type="button"  id="procesaregistro">
+						<i class="icon-ok bigger-110"></i>
+						{%if menu.seccion == 'Registro'%}Registrarme{%else%}Actualizar{%endif%}
+					</button>
+					&nbsp; &nbsp; &nbsp;
+					<button class="btn" type="reset">
+						<i class="icon-undo bigger-110"></i>
+						Borrar
+					</button>
+				</div>
+			</form>
+		</div><!--/span-->
+	</div><!--/user-profile-->
+
+<div class="row-fluid" id="procesando" style="display: none;margin-top: -40px;">
+	<div class="span12">
+		<div class="widget-box">
+			<div class="widget-header">
+				<h4 class="smaller"> Procesando <small>Por favor espere unos instantes...</small></h4>
+			</div>
+			<div class="widget-body">
+				<div class="widget-main">
+					<p style="text-align: center"><img alt="loader" src="{{ asset('images/loader.gif') }}" />
+					</p>
+				</div>
+			</div>
+		</div>
+	</div><!--/span-->
+</div>
+<div class="row-fluid" >
+	<div class="span12"  style="display: block" id="mensajeajax">
+		<div class="alert alert-block alert-success" id="mensajeajax-positivo" style="display: none">
+			<button type="button" class="close" data-dismiss="alert">
+				<i class="icon-remove"></i>
+			</button>
+			<p>
+				<strong> <i class="icon-ok"></i> Well done! </strong>
+				You successfully read this important alert message.
+			</p>
+		</div>
+	</div><!--/span-->
+</div>
+</div>
+{%endblock%} 

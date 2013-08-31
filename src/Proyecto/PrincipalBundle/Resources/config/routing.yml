@@ -1,0 +1,37 @@
+proyecto_principal_homepage:
+    pattern:  /
+    defaults: { _controller: ProyectoPrincipalBundle:Principal:modulo }
+proyecto_principal_modulo_editar:
+    pattern:  /editar
+    defaults: { _controller: ProyectoPrincipalBundle:Principal:editar }
+proyecto_principal_acerca:
+    pattern:  /acerca
+    defaults: { _controller: ProyectoPrincipalBundle:Principal:acerca }
+proyecto_principal_validacion:
+    pattern:  /validacion
+login:
+    pattern:   /login
+    defaults:  { _controller: AcmeSecurityBundle:Security:login }
+login_check:
+    pattern:   /login_check
+
+proyecto_principal_acceso:
+    pattern:  /acceso
+    defaults: { _controller: ProyectoPrincipalBundle:Users:acceso }
+proyecto_principal_registro:
+    pattern:  /registro
+    defaults: { _controller: ProyectoPrincipalBundle:Users:registro }
+proyecto_principal_resgistro_guardar:
+    pattern:  /registro/guardar
+    defaults: { _controller: ProyectoPrincipalBundle:Users:registroGuardar }
+    requirements:
+      _method: POST
+proyecto_principal_cerrarsesion:
+    pattern:  /logout
+    defaults: { _controller: ProyectoPrincipalBundle:Users:acceso }
+proyecto_principal_modulo_perfil:
+    pattern:  /perfil
+    defaults: { _controller: ProyectoPrincipalBundle:Users:perfil }
+proyecto_principal_modulo_nuevo:
+    pattern:  /nuevo
+    defaults: { _controller: ProyectoPrincipalBundle:Principal:nuevo }

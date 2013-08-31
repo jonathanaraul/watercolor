@@ -1,0 +1,41 @@
+{% extends "ProyectoPrincipalBundle:Helpers:base.html.twig" %}
+{%block info%}{% include 'ProyectoPrincipalBundle:Helpers:info.html.twig' with {'info': info} %}{%endblock%}
+
+{%block error%}
+{% if error %}
+<div class="alert alert-error">
+	<button type="button" class="close" data-dismiss="alert">
+		<i class="icon-remove"></i>
+	</button>
+	<strong> <i class="icon-remove"></i> Error </strong>
+	No puede acceder al sistema, intente m&aacute;s tarde... {{error}}
+	<br>
+</div>
+{% endif %}
+{%endblock%}
+
+{%block contenido%}
+<div class="row-fluid">
+	<div class="widget-box">
+		<div class="widget-header">
+			<h4>Formulario de acceso</h4>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main">
+				<form class="form-inline" action="{{ path('login_check') }}" method="post">
+					<input type="text" class="span4" placeholder="Usuario" name="_username"  value="{{ ultimo_nombreusuario}}">
+					<input type="password" class="span4" placeholder="Password" name="_password"  >
+					<label class="checkbox" >
+						<input type="checkbox">
+						<span class="lbl"> Recordar mis datos</span> </label>
+					<button onclick="" class="btn btn-info btn-small" type="submit">
+						<i class="icon-key bigger-110"></i>
+						Iniciar sesi&oacute;n
+					</button>
+					<!--<input type="submit" class="btn btn-info btn-small" value="Iniciar sesi&oacute;n">-->
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{%endblock%} 

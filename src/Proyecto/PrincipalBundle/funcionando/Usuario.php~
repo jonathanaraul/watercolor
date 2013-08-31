@@ -1,0 +1,64 @@
+<?php
+
+namespace Proyecto\PrincipalBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+
+/**
+ * Proyecto\PrincipalBundle\Entity\Usuario
+ *
+ * @ORM\Table(name="usuario")
+ * @ORM\Entity(repositoryClass="Proyecto\PrincipalBundle\Entity\UsuarioRepository")
+ */
+class Usuario
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=60)
+     */
+    private $nombre;
+
+    /**
+     * @ORM\Column(type="string", length=60)
+     */
+    private $apellido;
+
+    /**
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="string", length=80)
+     */
+    private $salt;
+
+    /**
+     * @ORM\Column(type="string", length=80)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=60, unique=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(name="sexo", type="boolean")
+     */
+    private $sexo;
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+
+
+}
