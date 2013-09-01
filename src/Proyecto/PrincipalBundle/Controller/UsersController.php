@@ -11,7 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Proyecto\PrincipalBundle\Entity\Usuario;
+use Symfony\Component\Security\Core\Util\StringUtils;
+use Proyecto\PrincipalBundle\Entity\User;
 
 class UsersController extends Controller {
 
@@ -25,26 +26,32 @@ class UsersController extends Controller {
 
 		$info = 'Rellene los siguientes campos para acceder al sistema';
 		
-		return $this -> render('ProyectoPrincipalBundle:Users:registro.html.twig', 
+		return $this -> render('ProyectoPrincipalBundle:Users:cuenta.html.twig', 
 		array('parameters' => $parameters,'menu' => $menu,'user' => $user, 'info' => $info, 'notifications' => $notifications,
 		));
 	}
 
-	public function registroGuardarAction() {
+	public function cuentaGuardarAction() {
 		$peticion = $this -> getRequest();
 		$doctrine = $this -> getDoctrine();
 		$post = $peticion -> request;
 		//INICIALIZAR VARIABLES
+		$tipo = $post -> get("tipo");//Saber si se actualiza o si se crea
 		$nombre = trim(strtolower($post -> get("nombre")));
 		$apellido = trim(strtolower($post -> get("apellido")));
 		$nombreusuario = trim($post -> get("nombredeusuario"));
 		$contrasenia = $post -> get("password");
-		$sexo = $post -> get("sexomasculino");
+		$contrasenia2 = $post -> get("password2");
+		$sexo = intval($post -> get("sexomasculino"));
 		$email = $post -> get("email");
+		$descripcion = htmlentities(addslashes($post -> get("descripcion")));
+		$path = "images/avatar-man.png";
+		
+		if($sexo == 1 ) $path = "images/avatar-woman.png";
 
-		$estado = false;
-		UtilitiesAPI::crearUsuario($nombre, $apellido, $nombreusuario, $contrasenia, $sexo, $email, $this);
-		$estado = true;
+		$estado = StringUtils::equals($contrasenia, $contrasenia2);
+		if($estado == true)UtilitiesAPI::procesaUsuario($tipo, $nombre, $apellido, $nombreusuario, $contrasenia, $sexo, $email, $descripcion, $path, $this);
+		
 		$respuesta = new response(json_encode(array('estado' => $estado)));
 		$respuesta -> headers -> set('content_type', 'aplication/json');
 		return $respuesta;
@@ -80,14 +87,17 @@ class UsersController extends Controller {
     {
     	//access to database
 		$parameters = UtilitiesAPI::getParameters($this);
-		$menu = UtilitiesAPI::getMenu('Acerca',$this);
+		$menu = UtilitiesAPI::getMenu('Perfil',$this);
 		$user = UtilitiesAPI::getActiveUser($this);
+		$auxiliar = array('descripcionusuario'=>stripcslashes(html_entity_decode($user->getDescripcion())));
+		 
+	
 		$notifications = UtilitiesAPI::getNotifications($user);
 
 		$info = 'Lea o edite su perfil';
 
-        return $this->render('ProyectoPrincipalBundle:Users:perfil.html.twig', 
-        array('parameters' => $parameters,'menu' => $menu,'user' => $user, 'info' => $info, 'notifications' => $notifications,
+        return $this->render('ProyectoPrincipalBundle:Users:cuenta.html.twig', 
+        array('parameters' => $parameters,'menu' => $menu,'user' => $user, 'info' => $info, 'notifications' => $notifications, 'auxiliar'=>$auxiliar,
 
 			  ));
     }

@@ -21,9 +21,9 @@ proyecto_principal_acceso:
 proyecto_principal_registro:
     pattern:  /registro
     defaults: { _controller: ProyectoPrincipalBundle:Users:registro }
-proyecto_principal_resgistro_guardar:
-    pattern:  /registro/guardar
-    defaults: { _controller: ProyectoPrincipalBundle:Users:registroGuardar }
+proyecto_principal_cuenta_guardar:
+    pattern:  /cuenta/guardar
+    defaults: { _controller: ProyectoPrincipalBundle:Users:cuentaGuardar }
     requirements:
       _method: POST
 proyecto_principal_cerrarsesion:

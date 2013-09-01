@@ -3,7 +3,7 @@
 namespace Proyecto\PrincipalBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Autores
  *
@@ -22,14 +22,14 @@ class Autores
     private $id;
 
     /**
-     * @var \Usuario
+     * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="user", referencedColumnName="id")
      * })
      */
-    private $usuario;
+    private $user;
 
 
 
@@ -44,25 +44,87 @@ class Autores
     }
 
     /**
-     * Set usuario
+     * Set user
      *
-     * @param \Proyecto\PrincipalBundle\Entity\Usuario $usuario
+     * @param \Proyecto\PrincipalBundle\Entity\User $user
      * @return Autores
      */
-    public function setUsuario(\Proyecto\PrincipalBundle\Entity\Usuario $usuario = null)
+    public function setUser(\Proyecto\PrincipalBundle\Entity\User $user = null)
     {
-        $this->usuario = $usuario;
+        $this->$user = $user;
     
         return $this;
     }
 
     /**
-     * Get usuario
+     * Get user
      *
-     * @return \Proyecto\PrincipalBundle\Entity\Usuario 
+     * @return \Proyecto\PrincipalBundle\Entity\User
      */
-    public function getUsuario()
+    public function getUser()
     {
-        return $this->usuario;
+        return $this->user;
+    }
+
+     /**
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+        return array('ROLE_ADMIN');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->path;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/documents';
+    }
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+        ) = unserialize($serialized);
     }
 }

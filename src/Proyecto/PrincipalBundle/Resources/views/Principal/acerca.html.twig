@@ -21,14 +21,14 @@
 							{%for autor in autors%}
 							<div class="itemdiv dialogdiv">
 								<div class="user">
-									<img alt="Alexa's Avatar" src="{{ asset('avatars/avatar.png') }}">
+									<img alt="Alexa's Avatar" src="{{ asset(''~ autor.path~'') }}">
 								</div>
 								<div class="body">
 									<div class="name">
-										<a href="#">{{autor.getNombre() |title}} {{autor.getApellido() |title}}</a>
+										<a href="#">{{autor.nombre |title}} {{autor.apellido |title}}</a>
 									</div>
 									<div class="text">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque commodo massa sed ipsum porttitor facilisis.
+										{% autoescape false %}{{auxiliar.descripcionusuario }}{% endautoescape %}
 									</div>
 								</div>
 							</div>

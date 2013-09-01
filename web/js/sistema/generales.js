@@ -1,20 +1,37 @@
 /**
  * @author Jonathan Araul
  */
-
-$("#procesaregistro").live("click", function() {
-
+$( "input[type=radio]" ).on( "click", function() {
+  var id =  $( "input:checked" ).attr('id');
+  if(id == 'sexomasculino'){
+  	$("#avatar-generico").css('display','none');
+  	$("#avatar-mujer").css('display','none');
+  	$("#avatar-hombre").css('display','block');
+  } 
+  else{
+   	$("#avatar-generico").css('display','none');
+   	$("#avatar-hombre").css('display','none'); 	
+  	$("#avatar-mujer").css('display','block');
+  }
+});
+$("#procesarcuenta").live("click", function() {
+	var tipo = parseInt($("#tipo").val());
 	//if(!validaCamposSelect($('select')))return false;
 
 	if(!validaCamposLlenos($(".form-horizontal").find("input,textarea").not('.opcional')))
 		return false;
 	if(!validaCamposRadio($(".form-horizontal").find("input[type=radio]").not('.opcional')))
 		return false;
-	if(!validaPasswords($('#password'), $('#password2')))
+	if(!validaPasswordsIgualdad($('#password'), $('#password2')))
 		return false;
+	if(tipo == 0) {
+		if(!validaPasswordsMinimoCaracteres($('#password'), $('#password2')))
+			return false;
+	}
 
 	$('.procesando-ocultar').css('display', 'none');
 	$('#procesando').css('display', 'block');
+	$('#mensajeajax-inicial').css('display', 'none');
 
 	var data = '';
 	var j = 0;
@@ -31,20 +48,33 @@ $("#procesaregistro").live("click", function() {
 			data += id + '=' + auxiliar;
 		j++;
 	});
-
+	console.log(data);
+	
 	$.ajax({
 		type : "POST",
-		url : registroGuardar,
+		url : cuentaGuardar,
 		data : data,
 		dataType : "json",
 		success : function(data) {
-		$('#mensajeainicial').css('display','none');
-		$('#procesando').css('display','none');
+			$('#procesando').css('display', 'none');
 
-		if(data.estado)agregaMensajeAjax('Usuario registrado','Felicidades '+$('#nombredeusuario').val()+' ahora puede acceder al sistema',data.estado);
-		else agregaMensajeAjax('Usuario no registrado','Lamentablemente no pudimos registrarlo, intente más tarde',data.estado);
-		
-		$('#mensajeajax').css('display','block');
+			if(data.estado) {
+				if(tipo == 0) {
+					agregaMensajeAjax('Usuario registrado', 'Felicidades ' + $('#nombredeusuario').val() + ' ahora puede acceder al sistema.', data.estado);
+
+				} else {
+					agregaMensajeAjax('Usuario actualizado', 'Felicidades ' + $('#nombredeusuario').val() + ' sus cambios fueron guardados.', data.estado);
+				}
+			} else {
+				if(tipo == 0) {
+					agregaMensajeAjax('Usuario no registrado', 'Lamentablemente no pudimos registrarlo, intente más tarde.', data.estado);
+
+				} else {
+					agregaMensajeAjax('Usuario no actualizado', 'Lamentablemente no pudimos actualizarlo, intente más tarde.', data.estado);
+
+				}
+			}
+			$('#mensajeajax').css('display', 'block');
 		}
 	});
 

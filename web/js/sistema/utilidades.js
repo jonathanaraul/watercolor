@@ -178,6 +178,7 @@ function validaCamposLlenos(elementos) {
 	$.each(elementos, function(indice, valor) {
 		var auxiliar = $(valor).val();
 		var campo = $.trim($(valor).parent().prev().html());
+		if(campo=='')campo=$.trim($(valor).parent().parent().prev().html());
 
 		if(auxiliar == '') {
 			
@@ -311,7 +312,7 @@ function validaCedula(elemento) {
 		 }						 
 	return validacion;
 }
-function validaPasswords(elemento1,elemento2) {
+function validaPasswordsIgualdad(elemento1,elemento2) {
 	
 	if(elemento1.val() != elemento2.val()){
 		$('#mensajeajax-negativo').empty();
@@ -322,8 +323,12 @@ function validaPasswords(elemento1,elemento2) {
 	}
 	else {
 		$('#mensajeajax-negativo').css('display','none');
-		 }	
-	if(elemento1.val().length < 8){
+		 }
+	return true;
+}
+function validaPasswordsMinimoCaracteres(elemento1,elemento2) {
+	
+	if(elemento1.val().length < 8 || elemento2.val().length < 8){
 
 		$('#mensajeajax-negativo').empty();
 		$('#mensajeajax-negativo').html('<button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong> <i class="icon-remove" ></i> Error </strong> La contraseña debe poseer mínimo 8 caracteres.<br>');
@@ -332,7 +337,8 @@ function validaPasswords(elemento1,elemento2) {
 	}		
 	else {
 		$('#mensajeajax-negativo').css('display','none');
-		 }		 
+		 }	
+		 
 	return true;
 }
 function isNumber(n) {

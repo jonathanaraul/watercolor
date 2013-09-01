@@ -1,15 +1,15 @@
 {% extends "ProyectoPrincipalBundle:Helpers:base.html.twig" %}
 {%block info%}{% include 'ProyectoPrincipalBundle:Helpers:info.html.twig' with {'info': info} %}{%endblock%}
 {%block scripts%}
-<script type="text/javascript">var registroGuardar = '{{path('proyecto_principal_resgistro_guardar')}}';</script>
+<script type="text/javascript">var cuentaGuardar = '{{path('proyecto_principal_cuenta_guardar')}}';</script>
 {%endblock%}
 
 {%block contenido%}
 <div class="hide" style="display: block;">
-	<div id="user-profile-3" class="user-profile row-fluid">
+	<div id="user-profile-3" class="user-profile row-fluid procesando-ocultar">
 		<div class="offset1 span10">
 			<div class="space"></div>
-			<form class="form-horizontal">
+			<form class="form-horizontal" enctype="multipart/form-data" id="formulario">
 				<input type="hidden" id="tipo" value="{%if menu.seccion == 'Registro'%}0{%else%}1{%endif%}">
 				<div class="tabbable">
 					<ul class="nav nav-tabs padding-16">
@@ -25,9 +25,30 @@
 							<h4 class="header blue bolder smaller">General</h4>
 							<div class="row-fluid">
 								<div class="span4">
-									<div class="ace-file-input ace-file-multiple">
-										<input type="file">
-										<label data-title="Cambiar avatar"><span data-title="No File ..."><i class="icon-picture"></i></span></label><a class="remove" href="#"><i class="icon-remove"></i></a>
+									<div class="ace-file-input ace-file-multiple" >
+										<input type="file" class="opcional" id="imagen">
+										<label data-title="Avatar" style="width: 273px;height: 224px;">
+											<span data-title="No File ..."> 
+											{%if user is not null%}
+											<i class="icon-picture" id="avatar-generico" style="display: none;margin-top: 35px;"></i>
+											
+												{%if user.sexo == 0%}
+													<p style="text-align: center;display: block;" id="avatar-hombre"><img src="{{ asset('images/avatar-man.png') }}" width="150" style="cursor: auto;">
+													</p>
+													<p style="text-align: center;display: none;" id="avatar-mujer"><img src="{{ asset('images/avatar-woman.png') }}" width="150" style="cursor: auto;">
+													</p> 
+												{%else%}
+													<p style="text-align: center;display: none;" id="avatar-hombre"><img src="{{ asset('images/avatar-man.png') }}" width="150" style="cursor: auto;">
+													</p>
+													<p style="text-align: center;display: block;" id="avatar-mujer"><img src="{{ asset('images/avatar-woman.png') }}" width="150" style="cursor: auto;">
+													</p> 
+												{%endif%}
+											{%else%} <i class="icon-picture" id="avatar-generico" style="display: block;margin-top: 35px;"></i>
+													<p style="text-align: center;display: none;" id="avatar-hombre"><img src="{{ asset('images/avatar-man.png') }}" width="150" style="cursor: auto;">
+													</p>
+													<p style="text-align: center;display: none;" id="avatar-mujer"><img src="{{ asset('images/avatar-woman.png') }}" width="150" style="cursor: auto;">
+													</p> 
+											{%endif%} </span></label><a class="remove" href="#"><i class="icon-remove"></i></a>
 									</div>
 								</div>
 								<div class="vspace"></div>
@@ -35,21 +56,23 @@
 									<div class="control-group">
 										<label class="control-label" for="form-field-username">Nombre de Usuario</label>
 										<div class="controls">
-											<input type="text" id="nombredeusuario" placeholder="Username" value="{%if user is defined%}{{user.username|title}}{%endif%}">
+											<span class="input-icon input-icon-right">
+												<input type="text" id="nombredeusuario" placeholder="Nombre de Usuario" value="{%if user is not null%}{{user.username|title}}{%endif%}">
+												<i class="icon-group"></i> </span>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label" for="form-field-first">Nombre y Apellido</label>
 										<div class="controls">
-											<input class="input-small" type="text" id="nombre" placeholder="Nombre" value="{%if user is defined%}{{user.nombre|title}}{%endif%}">
-											<input class="input-small" type="text"  id="apellido"  placeholder="Apellido" value="{%if user is defined%}{{user.apellido|title}}{%endif%}">
+											<input class="input-small" type="text" id="nombre" placeholder="Nombre" value="{%if user is not null%}{{user.nombre|title}}{%endif%}">
+											<input class="input-small" type="text"  id="apellido"  placeholder="Apellido" value="{%if user is not null%}{{user.apellido|title}}{%endif%}">
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label" for="form-field-email">Correo electr&oacute;nico</label>
 										<div class="controls">
 											<span class="input-icon input-icon-right">
-												<input type="email"  id="email"  value="{%if user is defined%}{{user.email|title}}{%endif%}">
+												<input type="email"  id="email"  value="{%if user is not null%}{{user.email|title}}{%endif%}" placeholder="Correo electr&oacute;nico" >
 												<i class="icon-envelope"></i> </span>
 										</div>
 									</div>
@@ -58,17 +81,17 @@
 										<div class="controls">
 											<div class="space-2"></div>
 											<label class="inline">
-												<input name="form-field-radio"  id="sexofemenino" type="radio" {%if user is defined%}{%if user.sexo == 1%}checked{%endif%}{%endif%}>
+												<input name="form-field-radio"  id="sexofemenino" type="radio" {%if user is not null%}{%if user.sexo == 1%}checked{%endif%}{%endif%}>
 												<span class="lbl"> Mujer</span> </label>
 											&nbsp; &nbsp; &nbsp; <label class="inline">
-												<input name="form-field-radio" id="sexomasculino" type="radio" {%if user is defined%}{%if user.sexo == 0%}checked{%endif%}{%endif%}>
+												<input name="form-field-radio" id="sexomasculino" type="radio" {%if user is not null%}{%if user.sexo == 0%}checked{%endif%}{%endif%}>
 												<span class="lbl"> Hombre</span> </label>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label" for="form-field-comment">Sobre ud...</label>
 										<div class="controls">
-											<textarea id="personal">{%if user is defined%}sobre mi{%endif%}</textarea>
+											<textarea id="descripcion" placeholder="Incluye aquí información sobre tus estudios, cargo, profesión o intereses...">{%if user is not null%}{{auxiliar.descripcionusuario }}{%endif%}</textarea>
 										</div>
 									</div>
 								</div>
@@ -86,20 +109,20 @@
 							<div class="control-group">
 								<label class="control-label" for="form-field-pass1">Nueva Contrase&ntilde;a</label>
 								<div class="controls">
-									<input type="password" id="password" >
+									<input type="password" id="password" {%if menu.seccion == 'Perfil'%}class="opcional"{%endif%} >
 								</div>
 							</div>
 							<div class="control-group">
 								<label class="control-label" for="form-field-pass2">Confirmar Contrase&ntilde;a</label>
 								<div class="controls">
-									<input type="password" id="password2" >
+									<input type="password" id="password2" {%if menu.seccion == 'Perfil'%}class="opcional"{%endif%} >
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="form-actions">
-					<button class="btn btn-info" type="button"  id="procesaregistro">
+					<button class="btn btn-info" type="button"  id="procesarcuenta">
 						<i class="icon-ok bigger-110"></i>
 						{%if menu.seccion == 'Registro'%}Registrarme{%else%}Actualizar{%endif%}
 					</button>
@@ -112,34 +135,33 @@
 			</form>
 		</div><!--/span-->
 	</div><!--/user-profile-->
-
-<div class="row-fluid" id="procesando" style="display: none;margin-top: -40px;">
-	<div class="span12">
-		<div class="widget-box">
-			<div class="widget-header">
-				<h4 class="smaller"> Procesando <small>Por favor espere unos instantes...</small></h4>
-			</div>
-			<div class="widget-body">
-				<div class="widget-main">
-					<p style="text-align: center"><img alt="loader" src="{{ asset('images/loader.gif') }}" />
-					</p>
+	<div class="row-fluid" id="procesando" style="display: none;margin-top: -40px;">
+		<div class="span12">
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4 class="smaller"> Procesando <small>Por favor espere unos instantes...</small></h4>
+				</div>
+				<div class="widget-body">
+					<div class="widget-main">
+						<p style="text-align: center"><img alt="loader" src="{{ asset('images/loader.gif') }}" />
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	</div><!--/span-->
-</div>
-<div class="row-fluid" >
-	<div class="span12"  style="display: block" id="mensajeajax">
-		<div class="alert alert-block alert-success" id="mensajeajax-positivo" style="display: none">
-			<button type="button" class="close" data-dismiss="alert">
-				<i class="icon-remove"></i>
-			</button>
-			<p>
-				<strong> <i class="icon-ok"></i> Well done! </strong>
-				You successfully read this important alert message.
-			</p>
-		</div>
-	</div><!--/span-->
-</div>
+		</div><!--/span-->
+	</div>
+	<div class="row-fluid" >
+		<div class="span12"  style="display: block" id="mensajeajax">
+			<div class="alert alert-block alert-success" id="mensajeajax-positivo" style="display: none">
+				<button type="button" class="close" data-dismiss="alert">
+					<i class="icon-remove"></i>
+				</button>
+				<p>
+					<strong> <i class="icon-ok"></i> Well done! </strong>
+					You successfully read this important alert message.
+				</p>
+			</div>
+		</div><!--/span-->
+	</div>
 </div>
 {%endblock%} 

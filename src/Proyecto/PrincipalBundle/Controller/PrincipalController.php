@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Proyecto\PrincipalBundle\Entity\Usuario;
+use Proyecto\PrincipalBundle\Entity\User;
 use Proyecto\PrincipalBundle\Entity\Autores;
 
 class PrincipalController extends Controller
@@ -24,6 +24,7 @@ class PrincipalController extends Controller
 		$user = UtilitiesAPI::getActiveUser($this);
 		$notifications = UtilitiesAPI::getNotifications($user);
 
+		//$user->setDescripcion(html_entity_decode($user->getDescripcion()));
 		$info = 'Seleccione el archivo a editar';
 		
         return $this->render('ProyectoPrincipalBundle:Principal:editar.html.twig', 
@@ -66,11 +67,13 @@ class PrincipalController extends Controller
 		$user = UtilitiesAPI::getActiveUser($this);
 		$notifications = UtilitiesAPI::getNotifications($user);
 		$autors = UtilitiesAPI::getAutors($this);
+		$auxiliar = array('descripcionusuario'=>stripcslashes(html_entity_decode($user->getDescripcion())));
+
 
 		$info = $parameters->getNombre().' '.$parameters->getVersion();
 
         return $this->render('ProyectoPrincipalBundle:Principal:acerca.html.twig', 
-        array('parameters' => $parameters,'menu' => $menu,'user' => $user, 'info' => $info, 'notifications' => $notifications,
+        array('parameters' => $parameters,'menu' => $menu,'user' => $user, 'info' => $info, 'notifications' => $notifications, 'auxiliar'=>$auxiliar,
 			  'autors'=>$autors
 			  ));
     }

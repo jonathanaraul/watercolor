@@ -1,0 +1,60 @@
+<?php
+
+namespace Proyecto\PrincipalBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Sistema
+ *
+ * @ORM\Table(name="sistema")
+ * @ORM\Entity
+ */
+class Sistema
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=400, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="version", type="string", length=50, nullable=false)
+     */
+    private $version;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcioncorta", type="text", nullable=false)
+     */
+    private $descripcioncorta;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcionlarga", type="text", nullable=false)
+     */
+    private $descripcionlarga;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="acercade", type="text", nullable=false)
+     */
+    private $acercade;
+
+
+}
