@@ -20,7 +20,7 @@ Permite crear un sistemas, partiendo de una sólida base, con características com
 ¿Estas interesado en aprender a desarrollar un software profesional? ¿Te gustaria aprender a utilizar el sistema de control de versiones creado por Linus Torvalds, para dar mantenimiento y fomentar el desarrollo del kernel de linux? ¿Piensas que la comunidad de Ingenieria de Sistemas de la UDO Monagas, esta completamente desfasada en el desarrollo de software? Juntos podemos hacer la diferencia.
 
 
-El dia lunes 09/09/2013 se efectuara una conferencia vía online, sobre Watercolor, dirigido a los programadores novatos, intermedios y avanzados de la Universidad de Oriente Nucleo Monagas.
+El dia lunes 09/09/2013 (9PM) se efectuara una conferencia vía online, sobre Watercolor, dirigido a los programadores novatos, intermedios y avanzados de la Universidad de Oriente Nucleo Monagas.
 
 IMPORTANTE debes tener cuenta en Google Plus y leer más sobre 
 
