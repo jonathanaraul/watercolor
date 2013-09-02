@@ -1,6 +1,6 @@
 _welcome:
     pattern:  /
-    defaults: { _controller: ProyectoPrincipalBundle:Principal:index }
+    defaults: { _controller: ProyectoPrincipalBundle:Default:index }
 
 _demo_secured:
     resource: "@AcmeDemoBundle/Controller/SecuredController.php"

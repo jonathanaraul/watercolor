@@ -3,10 +3,10 @@
 	<a href="{{path('proyecto_principal_homepage')}}"> <i class="icon-dashboard"></i> <span class="menu-text"> Panel de Control </span> </a>
 </li>
 <li {%if menu.seccion == 'Nuevo' %}class="active"{%endif%} >
-	<a href="{{path('proyecto_principal_modulo_nuevo')}}"> <i class="icon-cog"></i> <span class="menu-text"> Nuevo </span> </a>
+	<a href="{{path('proyecto_principal_nuevo')}}"> <i class="icon-cog"></i> <span class="menu-text"> Nuevo </span> </a>
 </li>
 <li {%if menu.seccion == 'Listado' %}class="active"{%endif%}>
-	<a href="{{path('proyecto_principal_modulo_editar')}}"> <i class="icon-book"></i> <span class="menu-text"> Listado </span> </a>
+	<a href="{{path('proyecto_principal_editar')}}"> <i class="icon-book"></i> <span class="menu-text"> Listado </span> </a>
 </li>
 {%endif%}
 <li {%if menu.seccion == 'Acceso' or menu.seccion == 'Registro' or menu.seccion == 'Mi Perfil' %}class="active open"{%endif%}>
@@ -22,7 +22,7 @@
 		{%endif%}
 		{%if user is not null %}
 		<li {%if menu.seccion == 'Mi Perfil' %}class="active"{%endif%}>
-			<a href="{{ path('proyecto_principal_modulo_perfil') }}"> <i class="icon-double-angle-right"></i> Perfil </a>
+			<a href="{{ path('proyecto_principal_perfil') }}"> <i class="icon-double-angle-right"></i> Perfil </a>
 		</li>
 		<li >
 			<a href="{{ path('proyecto_principal_cerrarsesion') }}"> <i class="icon-double-angle-right"></i> Cerrar sesi&oacute;n </a>

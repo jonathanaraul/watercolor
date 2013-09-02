@@ -10,6 +10,18 @@ use Proyecto\PrincipalBundle\Entity\Autores;
 
 class UtilitiesAPI extends Controller {
 
+	public static function getDefaultContent($item,$info,$class){
+		
+		$parameters = UtilitiesAPI::getParameters($class);
+		$menu = UtilitiesAPI::getMenu($item,$class);
+		$user = UtilitiesAPI::getActiveUser($class);
+		$notifications = UtilitiesAPI::getNotifications($user);
+		
+		$array = array('parameters' => $parameters,'menu' => $menu,'user' => $user, 'info' => $info, 'notifications' => $notifications);
+		
+		return $array;
+	}
+
 	public static function getAutors($class) {
 		$autors = $class -> getDoctrine() -> getRepository('ProyectoPrincipalBundle:Autores') -> findAll();
 		$users = array();

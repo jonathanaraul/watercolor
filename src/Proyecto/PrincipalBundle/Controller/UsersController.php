@@ -16,56 +16,7 @@ use Proyecto\PrincipalBundle\Entity\User;
 
 class UsersController extends Controller {
 
-	public function registroAction() {
-
-    	//access to database
-		$parameters = UtilitiesAPI::getParameters($this);
-		$menu = UtilitiesAPI::getMenu('Registro',$this);
-		$user = UtilitiesAPI::getActiveUser($this);
-		$notifications = UtilitiesAPI::getNotifications($user);
-
-		$info = 'Rellene los siguientes campos para acceder al sistema';
-		
-		return $this -> render('ProyectoPrincipalBundle:Users:cuenta.html.twig', 
-		array('parameters' => $parameters,'menu' => $menu,'user' => $user, 'info' => $info, 'notifications' => $notifications,
-		));
-	}
-
-	public function cuentaGuardarAction() {
-		$peticion = $this -> getRequest();
-		$doctrine = $this -> getDoctrine();
-		$post = $peticion -> request;
-		//INICIALIZAR VARIABLES
-		$tipo = $post -> get("tipo");//Saber si se actualiza o si se crea
-		$nombre = trim(strtolower($post -> get("nombre")));
-		$apellido = trim(strtolower($post -> get("apellido")));
-		$nombreusuario = trim($post -> get("nombredeusuario"));
-		$contrasenia = $post -> get("password");
-		$contrasenia2 = $post -> get("password2");
-		$sexo = intval($post -> get("sexomasculino"));
-		$email = $post -> get("email");
-		$descripcion = htmlentities(addslashes($post -> get("descripcion")));
-		$path = "images/avatar-man.png";
-		
-		if($sexo == 1 ) $path = "images/avatar-woman.png";
-
-		$estado = StringUtils::equals($contrasenia, $contrasenia2);
-		if($estado == true)UtilitiesAPI::procesaUsuario($tipo, $nombre, $apellido, $nombreusuario, $contrasenia, $sexo, $email, $descripcion, $path, $this);
-		
-		$respuesta = new response(json_encode(array('estado' => $estado)));
-		$respuesta -> headers -> set('content_type', 'aplication/json');
-		return $respuesta;
-	}
-
 	public function accesoAction() {
-		
-    	//access to database
-		$parameters = UtilitiesAPI::getParameters($this);
-		$menu = UtilitiesAPI::getMenu('Acceso',$this);
-		$user = UtilitiesAPI::getActiveUser($this);
-		$notifications = UtilitiesAPI::getNotifications($user);
-
-		$info = 'Ingrese su nombre de usuario y su contraseña';
 
 		$error = NULL;
 		$ultimo_nombreusuario = null;
@@ -78,28 +29,59 @@ class UsersController extends Controller {
 		else
 			$error = $sesion -> get(SecurityContext::AUTHENTICATION_ERROR);
 
-		return $this -> render('ProyectoPrincipalBundle:Users:acceso.html.twig', 
-		array('parameters' => $parameters,'menu' => $menu,'user' => $user, 'info' => $info, 'notifications' => $notifications,
-			  'ultimo_nombreusuario' => $sesion -> get(SecurityContext::LAST_USERNAME), 'error' => $error));
+		$firstArray = UtilitiesAPI::getDefaultContent('Acceso', 'Ingrese su nombre de usuario y su contraseña', $this);
+		$secondArray = array('ultimo_nombreusuario' => $sesion -> get(SecurityContext::LAST_USERNAME), 'error' => $error);
+
+		$array = array_merge($firstArray, $secondArray);
+		return $this -> render('ProyectoPrincipalBundle:Users:acceso.html.twig', $array);
 	}
 
-    public function perfilAction()
-    {
-    	//access to database
-		$parameters = UtilitiesAPI::getParameters($this);
-		$menu = UtilitiesAPI::getMenu('Perfil',$this);
-		$user = UtilitiesAPI::getActiveUser($this);
-		$auxiliar = array('descripcionusuario'=>stripcslashes(html_entity_decode($user->getDescripcion())));
-		 
-	
-		$notifications = UtilitiesAPI::getNotifications($user);
+	public function cuentaGuardarAction() {
+		$peticion = $this -> getRequest();
+		$doctrine = $this -> getDoctrine();
+		$post = $peticion -> request;
+		//INICIALIZAR VARIABLES
+		$tipo = $post -> get("tipo");
+		//Saber si se actualiza o si se crea
+		$nombre = trim(strtolower($post -> get("nombre")));
+		$apellido = trim(strtolower($post -> get("apellido")));
+		$nombreusuario = trim($post -> get("nombredeusuario"));
+		$contrasenia = $post -> get("password");
+		$contrasenia2 = $post -> get("password2");
+		$sexo = intval($post -> get("sexomasculino"));
+		$email = $post -> get("email");
+		$descripcion = htmlentities(addslashes($post -> get("descripcion")));
+		$path = "images/avatar-man.png";
 
-		$info = 'Lea o edite su perfil';
+		if ($sexo == 1)
+			$path = "images/avatar-woman.png";
 
-        return $this->render('ProyectoPrincipalBundle:Users:cuenta.html.twig', 
-        array('parameters' => $parameters,'menu' => $menu,'user' => $user, 'info' => $info, 'notifications' => $notifications, 'auxiliar'=>$auxiliar,
+		$estado = StringUtils::equals($contrasenia, $contrasenia2);
+		if ($estado == true)
+			UtilitiesAPI::procesaUsuario($tipo, $nombre, $apellido, $nombreusuario, $contrasenia, $sexo, $email, $descripcion, $path, $this);
 
-			  ));
-    }
+		$respuesta = new response(json_encode(array('estado' => $estado)));
+		$respuesta -> headers -> set('content_type', 'aplication/json');
+		return $respuesta;
+	}
+
+	public function perfilAction() {
+		$user = UtilitiesAPI::getActiveUser($this);	
+		$auxiliar = array('descripcionusuario' => stripcslashes(html_entity_decode($user -> getDescripcion())));
+
+		$firstArray = UtilitiesAPI::getDefaultContent('Perfil', 'Lea o edite su perfil', $this);
+		$secondArray = array('auxiliar'=>$auxiliar);
+
+		$array = array_merge($firstArray, $secondArray);
+		return $this -> render('ProyectoPrincipalBundle:Users:cuenta.html.twig', $array);
+	}
+
+	public function registroAction() {
+		$firstArray = UtilitiesAPI::getDefaultContent('Registro', 'Rellene los siguientes campos para acceder al sistema', $this);
+		$secondArray = array();
+
+		$array = array_merge($firstArray, $secondArray);
+		return $this -> render('ProyectoPrincipalBundle:Users:cuenta.html.twig', $array);
+	}
 
 }
