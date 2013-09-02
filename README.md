@@ -3,14 +3,13 @@ WaterColor 1.1.3 BETA
 
 Bienvenido a la version estandar de WaterColor, un fork del framework Symfony 2.2
 
-Este documento (Actualmente en desarrollo) contiene basica sobre el proyecto
+Este documento (Actualmente en desarrollo) contiene información basica sobre el proyecto.
 
 ----------------------------------
 
 ¿Que es WaterColor?
 
 Es un proyecto OPEN SOURCE que surge como un fork del framework Symfony en su versión 2.2, desarrollado con el objetivo de facilitar el desarrollo y gestion de software administrativo. 
-
 
 A traves de una interfaz de usuario minimalista y moderna, que implementa algunas de las tecnologías más novedosas de la actualidad.
 
@@ -31,6 +30,8 @@ Tal y como lo hace el equipo de mejorandola
 http://www.youtube.com/watch?v=Bk3rKev06y0
 
 WaterColor es un proyecto OPEN SOURCE. Puedes descargarlo, leerlo, modificarlo o distribuirlo libremente.
+
+Interesados comentar en la publicación de Facebook.
 
 Jonathan Araul
 
